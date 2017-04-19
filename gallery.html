@@ -1,0 +1,150 @@
+
+
+
+$(document).ready(function(){$("input, textarea").blur(function(){$(this).val()?$(this).addClass("used"):$(this).removeClass("used")})});
+
+<?php
+if (isset($_POST["email"])) {
+  $success = true;
+  $ToEmail = 'rails2016@oxon.ch';
+  $EmailSubject = 'Kontaktmail von http://www.oxon.ch/';
+  $mailheader = "From: ".$_POST["email"]."\r\n";
+  $mailheader .= "Reply-To: ".$_POST["email"]."\r\n";
+  $mailheader .= "Content-type: text/plain; charset=iso-8859-1\r\n";
+
+  $MESSAGE_BODY = "";
+  $MESSAGE_BODY .= "Vorname: ".$_POST["firstname"]."\n";
+  $MESSAGE_BODY .= "Name: ".$_POST["name"]."\n";
+  $MESSAGE_BODY .= "Firma: ".$_POST["company"]."\n";
+  $MESSAGE_BODY .= "Beruf: ".$_POST["job"]."\n";
+  $MESSAGE_BODY .= "E-Mail: ".$_POST["email"]."\n";
+  $MESSAGE_BODY .= "Telefon: ".$_POST["phone"]."\n";
+  $MESSAGE_BODY .= "Nachricht:\n";
+  $MESSAGE_BODY .= "-------------------------------------------\n";
+  $MESSAGE_BODY .= $_POST["comment"]."\n";
+  $MESSAGE_BODY .= "-------------------------------------------\n";
+  $MESSAGE_BODY .= "\n";
+  $MESSAGE_BODY .= "\n";
+  $MESSAGE_BODY .= "Agent: ". $_SERVER['HTTP_USER_AGENT'] ."\n";
+  $MESSAGE_BODY .= "IP: ". $_SERVER['REMOTE_ADDR'] ."\n";
+
+  if(!@mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader)) $success = false;
+}
+?>
+
+/* ========================== Material Design Form ========================== */
+#cta__form{
+  background-color: $color_white;
+}
+
+form {
+  color: $dark-gray;
+  .column {
+    position: relative;
+  }
+  h2 {
+    margin-bottom: 2rem;
+    @include breakpoint(small down){
+      font-size: 1.5625rem;
+    }
+  }
+  .cta__form-fullwidth {
+    .column:nth-child(2) {
+      display: flex;
+    }
+    @media (min-width: 640px) {
+      .column:first-child {
+        padding-right: 0;
+      }
+      .column:nth-child(2) {
+        display: flex;
+
+        padding-left: 0;
+      }
+    }
+  }
+  input {
+    margin-bottom: 1.5rem !important;
+    &[type='submit'] {
+      font-size: 1.5rem !important;
+      font-weight: bold;
+
+      max-width: 100%;
+      height: 4.25rem;
+      margin: 0;
+
+      text-transform: uppercase;
+
+      flex-grow: 2;
+
+      @media (min-width: 640px){
+        height: 9.25rem;
+      }
+    }
+  }
+  textarea {
+    height: 9.25rem;
+
+    resize: none;
+  }
+  /* --------------------------------- Label --------------------------------- */
+  label {
+    font-size: 1rem;
+
+    position: absolute;
+    top: .875rem;
+    left: 1.75rem;
+
+    transition: .2s ease all;
+    pointer-events: none;
+
+    color: #999;
+  }
+  /* active state */
+  input:focus ~ label,
+  textarea:focus ~ label,
+  input.used ~ label,
+  textarea.used ~ label {
+    font-size: .875rem;
+
+    top: -1.3125rem;
+    left: 1rem;
+
+    color: $color_green;
+  }
+  /* ------------------------------- Bottom Bar ------------------------------- */
+  .bar {
+    position: relative;
+    top: -1rem;
+
+    display: block;
+
+    width: 100%;
+  }
+  .bar:before,
+  .bar:after {
+    position: absolute;
+    bottom: 1px;
+
+    width: 0;
+    height: .125rem;
+
+    content: '';
+    transition: .2s ease all;
+
+    background: $color_green;
+  }
+  .bar:before {
+    left: 50%;
+  }
+  .bar:after {
+    right: 50%;
+  }
+  /* active state */
+  input:focus ~ .bar:before,
+  input:focus ~ .bar:after,
+  textarea:focus ~ .bar:before,
+  textarea:focus ~ .bar:after {
+    width: 50%;
+  }
+}
